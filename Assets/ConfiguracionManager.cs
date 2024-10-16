@@ -30,13 +30,13 @@ public class ConfiguracionManager : MonoBehaviour
     public static bool temperaturaHabilitada = true;
     public static bool pesosHabilitados = true;
 
-    public static int precioRL = 50;
-    public static int precioCP= 30;
-    public static int precioVelon = 20;
+    public static float precioRL = 50;
+    public static float precioCP= 30;
+    public static float precioVelon = 20;
 
-    public static int aumentoLyT = 5;
-    public static int aumento_L = 3;
-    public static int aumento_l = 10;
+    public static float aumentoLyT = 5;
+    public static float aumento_L = 3;
+    public static float aumento_l = 10;
 
 
     void Start()
@@ -64,9 +64,9 @@ public class ConfiguracionManager : MonoBehaviour
     void ConfirmarConfiguracion()
     {
         // Obtener valores de los Input Fields
-        int lumenes = int.Parse(lumenesInput.text);
+        float lumenes = float.Parse(lumenesInput.text);
         float temperatura = float.Parse(temperaturaInput.text);
-        int pesos = int.Parse(pesosInput.text);
+        float pesos = float.Parse(pesosInput.text);
         bool habilitarComunicacion = habilitarComunicacionToggle.isOn;
         int baudRate = int.Parse(baudRateDropdown.options[baudRateDropdown.value].text);
 
@@ -80,13 +80,13 @@ public class ConfiguracionManager : MonoBehaviour
         GameManager.instance.pesosHabilitados = pesosHabilitados;
 
         // Guardar los precios y aumentos ingresados por el usuario
-        precioRL = int.Parse(inputPrecioRL.text);
-        precioCP = int.Parse(inputPrecioCP.text);
-        precioVelon = int.Parse(inputPrecioVelon.text);
+        precioRL = float.Parse(inputPrecioRL.text);
+        precioCP = float.Parse(inputPrecioCP.text);
+        precioVelon = float.Parse(inputPrecioVelon.text);
 
-        aumentoLyT = int.Parse(inputAumentoLyT.text);
-        aumento_L = int.Parse(inputAumento_L.text);
-        aumento_l = int.Parse(inputAumento_l.text);
+        aumentoLyT = float.Parse(inputAumentoLyT.text);
+        aumento_L = float.Parse(inputAumento_L.text);
+        aumento_l = float.Parse(inputAumento_l.text);
 
 
         // Actualizar los valores en el GameManager

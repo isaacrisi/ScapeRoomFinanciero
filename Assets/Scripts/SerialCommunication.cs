@@ -51,15 +51,21 @@ public class SerialCommunication : MonoBehaviour
             CheckTemperatureAndChangeScene();
         }
         
-        if (serialPort.IsOpen && serialPort.BytesToRead > 0)
-        {
-            string receivedData = serialPort.ReadLine();
-            Debug.Log("Datos recibidos del microcontrolador: " + receivedData);
-        }
         
          if (Input.GetKeyDown(KeyCode.Return))
         {
             CheckLumenesAndChangeScene();
+        }
+        // Verificar si hay datos recibidos del microcontrolador
+        if (serialPort.IsOpen && serialPort.BytesToRead > 0)
+        {
+            string receivedData = serialPort.ReadLine();
+            ProcessReceivedData(receivedData);  // Procesar los datos recibidos
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SendRequestToMicrocontroller();  // Enviar la solicitud de datos al presionar Enter
         }
     }
 
@@ -67,7 +73,7 @@ public class SerialCommunication : MonoBehaviour
     {
         if (serialPort.IsOpen)
         {
-            int lumenes = Mathf.RoundToInt(lumenSlider.value);
+            float lumenes = lumenSlider.value;
             float temperatura = temperatureSlider.value;
 
             string dataToSend = $"L={lumenes},T={temperatura:F2},P={GameManager.instance.pesos}";
@@ -126,8 +132,8 @@ public class SerialCommunication : MonoBehaviour
 
     void BuyExpensiveLight()
     {
-        int cost = GameManager.instance.precioVelon;  // Precio de la luz cara
-        int lumenIncrease = GameManager.instance.aumento_L;  // Aumento significativo de lúmenes
+        float cost = GameManager.instance.precioVelon;  // Precio de la luz cara
+        float lumenIncrease = GameManager.instance.aumento_L;  // Aumento significativo de lúmenes
 
         if (GameManager.instance.pesos >= cost)
         {
@@ -148,8 +154,8 @@ public class SerialCommunication : MonoBehaviour
     }
     void BuyCheapLight()
     {
-        int cost = GameManager.instance.precioCP;  // Precio de la luz barata
-        int lumenIncrease = GameManager.instance.aumento_l;  // Aumento menor de lúmenes
+        float cost = GameManager.instance.precioCP;  // Precio de la luz barata
+        float lumenIncrease = GameManager.instance.aumento_l;  // Aumento menor de lúmenes
 
         if (GameManager.instance.pesos >= cost)
         {
@@ -180,6 +186,46 @@ public class SerialCommunication : MonoBehaviour
             Debug.Log("No tienes suficientes lúmenes para cambiar de escena.");
         }
     }
+    void SendRequestToMicrocontroller()
+    {
+        if (serialPort.IsOpen)
+        {
+            serialPort.Write("A");  // Enviar el BYTE 'A' para solicitar la información de las variables
+            Debug.Log("Solicitud enviada al microcontrolador.");
+        }
+    }
+
+
+    void ProcessReceivedData(string data)
+    {
+        // Procesar los datos recibidos del microcontrolador
+        string[] variables = data.Split(',');
+
+        foreach (string variable in variables)
+        {
+            Debug.Log("Dato recibido: " + variable);
+            // Aquí puedes actualizar tus sliders o texto dependiendo de los valores recibidos
+            if (variable.StartsWith("Lumenes:"))
+            {
+                string[] lumenesData = variable.Split(':');
+                float lumenesValue = float.Parse(lumenesData[1]);
+                lumenSlider.value = lumenesValue;  // Actualizar el slider de lúmenes
+            }
+            else if (variable.StartsWith("Temperatura:"))
+            {
+                string[] tempData = variable.Split(':');
+                float temperatureValue = float.Parse(tempData[1]);
+                temperatureSlider.value = temperatureValue;  // Actualizar el slider de temperatura
+            }
+            else if (variable.StartsWith("Pesos:"))
+            {
+                string[] pesosData = variable.Split(':');
+                float pesosValue = float.Parse(pesosData[1]);
+                pesosText.text = "Pesos: " + pesosValue;  // Actualizar el texto de pesos
+            }
+        }
+    }
+
 
     private void OnApplicationQuit()
     {
