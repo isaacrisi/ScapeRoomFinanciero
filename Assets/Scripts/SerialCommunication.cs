@@ -67,7 +67,7 @@ public class SerialCommunication : MonoBehaviour
     {
         if (serialPort.IsOpen)
         {
-            int lumenes = Mathf.RoundToInt(lumenSlider.value);
+            float lumenes = Mathf.RoundToInt(lumenSlider.value);
             float temperatura = temperatureSlider.value;
 
             string dataToSend = $"L={lumenes},T={temperatura:F2},P={GameManager.instance.pesos}";
@@ -126,8 +126,8 @@ public class SerialCommunication : MonoBehaviour
 
     void BuyExpensiveLight()
     {
-        int cost = GameManager.instance.precioVelon;  // Precio de la luz cara
-        int lumenIncrease = GameManager.instance.aumento_L;  // Aumento significativo de lúmenes
+        float cost = GameManager.instance.precioVelon;  // Precio de la luz cara
+        float lumenIncrease = GameManager.instance.aumento_L;  // Aumento significativo de lúmenes
 
         if (GameManager.instance.pesos >= cost)
         {
@@ -148,8 +148,8 @@ public class SerialCommunication : MonoBehaviour
     }
     void BuyCheapLight()
     {
-        int cost = GameManager.instance.precioCP;  // Precio de la luz barata
-        int lumenIncrease = GameManager.instance.aumento_l;  // Aumento menor de lúmenes
+        float cost = GameManager.instance.precioCP;  // Precio de la luz barata
+        float lumenIncrease = GameManager.instance.aumento_l;  // Aumento menor de lúmenes
 
         if (GameManager.instance.pesos >= cost)
         {

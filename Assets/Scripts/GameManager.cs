@@ -5,8 +5,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     // Variables persistentes entre escenas
-    public int pesos = 100000;
-    public int lumenes = 20;
+    public float pesos = 100000;
+    public float lumenes = 20;
     public float temperatura = 20.0f;
 
     // Variables de configuración
@@ -14,15 +14,15 @@ public class GameManager : MonoBehaviour
     public int baudRate = 9600;
     public int baudRateIndex = 0;  // Índice del dropdown de baud rate
 
-    public int valorInicialPesos = 100000;
+    public float valorInicialPesos = 100000;
 
-    public int precioRL = 50;
-    public int precioCP = 30;
-    public int precioVelon = 20;
+    public float precioRL = 50;
+    public float precioCP = 30;
+    public float precioVelon = 20;
 
-    public int aumentoLyT = 5;
-    public int aumento_L = 3;
-    public int aumento_l = 10;
+    public float aumentoLyT = 5;
+    public float aumento_L = 3;
+    public float aumento_l = 10;
 
     public bool luzHabilitada = true;
     public bool temperaturaHabilitada = true;

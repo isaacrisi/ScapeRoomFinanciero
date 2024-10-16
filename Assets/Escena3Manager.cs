@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 public class Escena3Manager : MonoBehaviour
 {
     public TextMeshProUGUI textoCorrupcion;
-    private int precioLibertad;
-    private int valorInicialPesos;
+    private float precioLibertad;
+    private float valorInicialPesos;
 
     void Start()
     {
